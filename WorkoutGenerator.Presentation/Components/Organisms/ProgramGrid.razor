@@ -1,0 +1,15 @@
+﻿@using WorkoutGenerator.Application.DTOs.Workouts
+
+<div class="program-grid">
+    @foreach (var program in Programs)
+    {
+        <ProgramCard Program="program" />
+    }
+</div>
+
+
+
+@code {
+    [Parameter]
+    public List<WorkoutDto> Programs { get; set; } = new();
+}

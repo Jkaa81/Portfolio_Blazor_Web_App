@@ -1,0 +1,114 @@
+﻿@page "/exercises/create"
+
+@inject WorkoutGenerator.Application.Interfaces.Services.IExerciseService ExerciseService
+@inject WorkoutGenerator.Application.Interfaces.Services.ICategoryService CategoryService
+@inject WorkoutGenerator.Application.Interfaces.Services.IDifficultyLevelService DifficultyLevelService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Exercise</PageTitle>
+
+<div class="create-exercise-page">
+    <h1>Create Exercise</h1>
+
+    @if (isLoading)
+    {
+        <p>Loading form...</p>
+    }
+    else
+    {
+        <EditForm Model="model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="name">Exercise name</label>
+                <InputText id="name"
+                           class="form-control"
+                           @bind-Value="model.ExerciseName" />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <InputTextArea id="description"
+                               class="form-control"
+                               @bind-Value="model.ExerciseDescription" />
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <InputSelect id="category"
+                             class="form-control"
+                             @bind-Value="model.CategoryId">
+                    <option value="0">Select category</option>
+                    @foreach (var category in categories)
+                    {
+                        <option value="@category.CategoryId">@category.CategoryName</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="form-group">
+                <label for="difficulty">Difficulty</label>
+                <InputSelect id="difficulty"
+                             class="form-control"
+                             @bind-Value="model.DifficultyLevelId">
+                    <option value="0">Select difficulty level</option>
+                    @foreach (var difficulty in difficultyLevels)
+                    {
+                        <option value="@difficulty.DifficultyLevelId">@difficulty.Name</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="form-actions">
+                <BaseButton Text="Save"
+                            Variant="primary"
+                            ButtonType="submit"
+                            Disabled="isSaving" />
+
+                <BaseButton Text="Cancel"
+                            Variant="secondary"
+                            OnClick="HandleCancel"
+                            Disabled="isSaving" />
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private CreateExerciseDto model = new();
+
+    private List<CategoryDto> categories = new();
+    private List<DifficultyLevelDto> difficultyLevels = new();
+
+    private bool isLoading = true;
+    private bool isSaving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await CategoryService.GetAllAsync();
+        difficultyLevels = await DifficultyLevelService.GetAllAsync();
+
+        isLoading = false;
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (isSaving)
+            return;
+
+        isSaving = true;
+
+        await ExerciseService.AddAsync(model);
+
+        isSaving = false;
+
+        NavigationManager.NavigateTo("/exercises");
+    }
+
+    private Task HandleCancel()
+    {
+        NavigationManager.NavigateTo("/exercises");
+        return Task.CompletedTask;
+    }
+}

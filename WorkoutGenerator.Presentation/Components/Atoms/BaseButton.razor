@@ -1,0 +1,32 @@
+﻿<button class="base-button @CssClass"
+        type="@ButtonType"
+        @onclick="OnClick"
+        disabled="@Disabled">
+
+    @if (!string.IsNullOrWhiteSpace(Icon))
+    {
+        <span class="base-button__icon">@Icon</span>
+    }
+
+    <span>@Text</span>
+</button>
+
+
+@code {
+    [Parameter] public string Text { get; set; } = string.Empty;
+    [Parameter] public EventCallback OnClick { get; set; }
+    [Parameter] public string Variant { get; set; } = "primary";
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string ButtonType { get; set; } = "button";
+    [Parameter] public string? Icon { get; set; }
+
+    private string CssClass => Variant switch
+    {
+        "secondary" => "base-button--secondary",
+        "danger" => "base-button--danger",
+        _ => "base-button--primary"
+    };
+    
+
+   
+}

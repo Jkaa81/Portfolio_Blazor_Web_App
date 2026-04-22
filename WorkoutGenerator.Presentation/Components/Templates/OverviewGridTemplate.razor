@@ -1,0 +1,50 @@
+﻿<div class="overview-grid-template">
+    <div class="overview-grid-template__header">
+        <h1>@Title</h1>
+
+        @if (HeaderContent is not null)
+        {
+            <div class="overview-grid-template__header-content">
+                @HeaderContent
+            </div>
+        }
+    </div>
+
+    <div class="overview-grid-template__body">
+        @if (IsLoading)
+        {
+            <p>@LoadingText</p>
+        }
+        else if (IsEmpty)
+        {
+            <p>@EmptyText</p>
+        }
+        else
+        {
+            @ChildContent
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public bool IsEmpty { get; set; }
+
+    [Parameter]
+    public string LoadingText { get; set; } = "Loading...";
+
+    [Parameter]
+    public string EmptyText { get; set; } = "No items found.";
+
+    [Parameter]
+    public RenderFragment? HeaderContent { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+}

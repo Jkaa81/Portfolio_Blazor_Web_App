@@ -1,0 +1,31 @@
+﻿.overview-grid-template {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.overview-grid-template__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+    .overview-grid-template__header h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+.overview-grid-template__header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.overview-grid-template__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

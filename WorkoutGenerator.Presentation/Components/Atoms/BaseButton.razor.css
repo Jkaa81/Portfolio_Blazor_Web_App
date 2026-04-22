@@ -1,0 +1,53 @@
+﻿.base-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+    .base-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+/* Variants */
+
+.base-button--primary {
+    background-color: #4f46e5;
+    color: white;
+}
+
+    .base-button--primary:hover:not(:disabled) {
+        background-color: #4338ca;
+    }
+
+.base-button--secondary {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+    .base-button--secondary:hover:not(:disabled) {
+        background-color: #d1d5db;
+    }
+
+.base-button--danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+    .base-button--danger:hover:not(:disabled) {
+        background-color: #dc2626;
+    }
+
+/* Icon */
+
+.base-button__icon {
+    display: inline-flex;
+    align-items: center;
+}

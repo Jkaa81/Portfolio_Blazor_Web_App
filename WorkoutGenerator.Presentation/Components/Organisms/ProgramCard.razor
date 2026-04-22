@@ -1,0 +1,75 @@
+﻿@using WorkoutGenerator.Application.DTOs.Workouts
+
+<div class="program-card">
+    <div class="program-card__header">
+        <div>
+            <h3>@Program.WorkoutTitle</h3>
+
+            @if (!string.IsNullOrWhiteSpace(Program.WorkoutDescription))
+            {
+                <p class="program-card__description">@Program.WorkoutDescription</p>
+            }
+        </div>
+    </div>
+
+    <div class="program-card__meta">
+        <BaseBadge Text="@($"Coach: {Program.CoachName}")" />
+
+        @if (!string.IsNullOrWhiteSpace(Program.CustomerName))
+        {
+            <BaseBadge Text="@($"Customer: {Program.CustomerName}")" />
+        }
+
+        @if (Program.IsTemplate)
+        {
+            <BaseBadge Text="Template" />
+        }
+
+        @if (Program.IsArchived)
+        {
+            <BaseBadge Text="Archived" />
+        }
+    </div>
+
+    <div class="program-card__body">
+        <h4>Exercises</h4>
+
+        @if (Program.WorkoutExercises is null || !Program.WorkoutExercises.Any())
+        {
+            <p class="program-card__empty">No exercises added.</p>
+        }
+        else
+        {
+            <ul class="program-card__exercise-list">
+                @foreach (var exercise in Program.WorkoutExercises.OrderBy(x => x.Order))
+                {
+                    <li class="program-card__exercise-item">
+                        <span class="program-card__exercise-order">@exercise.Order.</span>
+                        <span class="program-card__exercise-name">@exercise.ExerciseName</span>
+
+                        <span class="program-card__exercise-details">
+                            @if (exercise.Duration.HasValue)
+                            {
+                                <span>@exercise.Duration sec</span>
+                            }
+                            else
+                            {
+                                <span>@exercise.Sets x @exercise.Reps</span>
+                            }
+
+                            @if (exercise.Weight.HasValue)
+                            {
+                                <span> • @exercise.Weight kg</span>
+                            }
+                        </span>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public WorkoutDto Program { get; set; } = default!;
+}

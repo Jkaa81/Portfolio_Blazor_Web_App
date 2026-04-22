@@ -1,0 +1,40 @@
+﻿@page "/exercises"
+@rendermode InteractiveServer
+@using WorkoutGenerator.Application.DTOs.Exercises
+@inject NavigationManager NavigationManager
+@inject WorkoutGenerator.Application.Interfaces.Services.IExerciseService ExerciseService
+
+<PageTitle>Exercises</PageTitle>
+
+<OverviewGridTemplate Title="Exercises"
+                      IsLoading="@(exercises is null)"
+                      IsEmpty="@(exercises is not null && !exercises.Any())"
+                      LoadingText="Loading exercises..."
+                      EmptyText="No exercises found.">
+
+    <HeaderContent>
+        <BaseButton Text="Add Exercise"
+                    Variant="primary"
+                    OnClick="GoToCreateExercise" />
+    </HeaderContent>
+
+    <ChildContent>
+        <ExerciseGrid Exercises="exercises!" />
+    </ChildContent>
+
+</OverviewGridTemplate>
+
+@code {
+    private List<ExerciseDto>? exercises;
+
+    protected override async Task OnInitializedAsync()
+    {
+        exercises = await ExerciseService.GetAllAsync();
+    }
+
+    private Task GoToCreateExercise()
+    {
+        NavigationManager.NavigateTo("/exercises/create");
+        return Task.CompletedTask;
+    }
+}

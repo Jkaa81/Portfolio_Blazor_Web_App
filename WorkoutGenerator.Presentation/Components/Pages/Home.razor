@@ -1,0 +1,22 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<h2>
+    Her skal der være en mulighed for at se alle øvelser/programmer/programskabeloner
+    og der skal være en "opret nyt program/template/øvelse"-knap
+</h2>
+<BaseButton Text="Test" OnClick="TestClick" />
+<p>@message</p>
+ 
+
+@code {
+    private string message = "";
+    private Task TestClick()
+    {
+        
+        message = "Knappen virker";
+        return Task.CompletedTask;
+    }
+}

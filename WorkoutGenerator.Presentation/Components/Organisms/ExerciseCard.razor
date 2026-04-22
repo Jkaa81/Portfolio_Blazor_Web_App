@@ -1,0 +1,21 @@
+﻿@using WorkoutGenerator.Application.DTOs.Exercises
+
+<div class="exercise-card">
+    <div class="exercise-card__header">
+        <h3>@Exercise.ExerciseName</h3>
+    </div>
+
+    <div class="exercise-card__body">
+        <p>@Exercise.ExerciseDescription</p>
+    </div>
+
+    <div class="exercise-card__footer">
+        <BaseBadge Text="@Exercise.CategoryName" />
+        <BaseBadge Text="@Exercise.DifficultyLevelName" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ExerciseDto Exercise { get; set; } = default!;
+}

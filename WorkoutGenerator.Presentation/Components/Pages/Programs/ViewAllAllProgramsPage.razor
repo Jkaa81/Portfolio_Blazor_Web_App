@@ -1,0 +1,37 @@
+﻿@page "/programs"
+@using WorkoutGenerator.Application.DTOs.Workouts
+@inject WorkoutGenerator.Application.Interfaces.Services.IWorkoutService WorkoutService
+
+<PageTitle>Programs</PageTitle>
+
+<OverviewGridTemplate Title="Programs"
+                      IsLoading="@(programs is null)"
+                      IsEmpty="@(programs is not null && !programs.Any())"
+                      LoadingText="Loading programs..."
+                      EmptyText="No programs found.">
+
+    <HeaderContent>
+        <BaseButton Text="Add Exercise"
+                    Variant="primary"
+                    OnClick="GoToCreateProgram" />
+    </HeaderContent>
+
+    <ChildContent>
+        <ProgramGrid Programs="programs!" />
+    </ChildContent>
+
+</OverviewGridTemplate>
+
+@code {
+    private List<WorkoutDto>? programs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        programs = await WorkoutService.GetAllAsync();
+    }
+
+    private void GoToCreateProgram()
+    {
+        Console.WriteLine("Navigate to create program page");
+    }
+}
